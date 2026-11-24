@@ -7,6 +7,7 @@ class Usuario
     private $pw;
     private $rol;
 
+    
     public function __construct($email, $pw, $nombre = null, $rol = null, $id_user = null)
     {
         $this->email = $email;
