@@ -9,6 +9,7 @@ CREATE TABLE usuarios (
     rol VARCHAR(50) NOT NULL
 );
 
+
 CREATE TABLE departamentos (
     id_depto INT AUTO_INCREMENT PRIMARY KEY,
     nombre_depto VARCHAR(100) NOT NULL,
