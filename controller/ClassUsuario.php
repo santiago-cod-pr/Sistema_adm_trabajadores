@@ -52,6 +52,67 @@ class Usuario
         mysqli_close($con);
     }
 
-    // El Integrante 2 agregará aquí abajo los métodos alta(), actualizar() y eliminar()
+    public function alta()
+    {
+        include('../model/conexionDB.php');
+        $con = conection();
+
+        $sql = "INSERT INTO usuarios (nombre, email, password, rol) 
+                VALUES ('$this->nombre', '$this->email', '$this->pw', '$this->rol')";
+        $query = mysqli_query($con, $sql);
+
+        if ($query) {
+            echo "
+            <script>
+                alert('Usuario registrado exitosamente');
+                window.location.href = '../view/usuarios.php';
+            </script>";
+        } else {
+            echo "Error al registrar usuario: " . mysqli_error($con);
+        }
+        mysqli_close($con);
+    }
+
+    public function actualizar($id)
+    {
+        include('../model/conexionDB.php');
+        $con = conection();
+
+        $sql = "UPDATE usuarios 
+                SET nombre = '$this->nombre', email = '$this->email', password = '$this->pw', rol = '$this->rol' 
+                WHERE id_user = $id";
+        $query = mysqli_query($con, $sql);
+
+        if ($query) {
+            echo "
+            <script>
+                alert('Usuario actualizado correctamente');
+                window.location.href = '../view/usuarios.php';
+            </script>";
+        } else {
+            echo "Error al actualizar usuario: " . mysqli_error($con);
+        }
+        mysqli_close($con);
+    }
+
+    public function eliminar($id)
+    {
+        include('../model/conexionDB.php');
+        $con = conection();
+
+        $sql = "DELETE FROM usuarios WHERE id_user = $id";
+        $query = mysqli_query($con, $sql);
+
+        if ($query) {
+            echo "
+            <script>
+                alert('Usuario eliminado');
+                window.location.href = '../view/usuarios.php';
+            </script>";
+        } else {
+            echo "Error al eliminar usuario: " . mysqli_error($con);
+        }
+        mysqli_close($con);
+    }
 }
 ?>
