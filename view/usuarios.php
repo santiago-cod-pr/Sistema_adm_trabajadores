@@ -19,34 +19,42 @@ $total = mysqli_num_rows($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios del Sistema</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../SRC/css/style.css">
 </head>
 <body class="bg-dark text-white">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-secondary mb-4">
+    <!-- Barra superior estilo RRHH -->
+    <nav class="navbar navbar-expand-lg border-bottom mb-4">
         <div class="container">
             <a class="navbar-brand fw-bold" href="dashboard.php">Empresa RRHH</a>
-            <div class="d-flex align-items-center gap-3">
-                <a href="dashboard.php" class="btn btn-outline-light btn-sm">Volver a Trabajadores</a>
-                <a href="../model/logout.php" class="btn btn-outline-danger btn-sm">Cerrar Sesión</a>
+            <div class="d-flex align-items-center gap-2">
+                <a href="dashboard.php" class="btn">Volver a Trabajadores</a>
+                <a href="../model/logout.php" class="btn">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
+        <!-- Encabezado de sección y botón principal -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h2 class="mb-0">Cuentas de Acceso al Sistema</h2>
-                <p class="text-secondary mb-0">Total de usuarios: <span class="badge bg-info text-dark"><?= $total; ?></span></p>
+                <p class="mb-0">Total de usuarios: <span><?= $total; ?></span></p>
             </div>
             <div>
-                <a href="FormularioUsuario.php" class="btn btn-primary fw-bold">+ Nuevo Usuario</a>
+                <a href="FormularioUsuario.php" class="btn-solid theme-info">+ Nuevo Usuario</a>
             </div>
         </div>
 
-        <div class="table-responsive shadow rounded">
-            <table class="table table-dark table-striped table-hover align-middle mb-0">
-                <thead class="table-info text-dark">
+        <!-- Tabla lista para aplicarle el estilo/tema de Bootstrap 6 que elijas -->
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
@@ -62,13 +70,13 @@ $total = mysqli_num_rows($query);
                         <td><?= $row['id_user'] ?></td>
                         <td><?= $row['nombre'] ?></td>
                         <td><?= $row['email'] ?></td>
-                        <td><span class="badge bg-warning text-dark"><?= $row['rol'] ?></span></td>
+                        <td><span><?= $row['rol'] ?></span></td>
                         <td><?= $row['password'] ?></td>
                         <td class="text-center">
-                            <a href="FormularioUsuarioActualizar.php?id=<?= $row['id_user'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                            <a onclick="return confirm('¿Eliminar este usuario del sistema?')" 
-                               href="../model/ModeloUsuarioEliminar.php?id=<?= $row['id_user'] ?>" 
-                               class="btn btn-danger btn-sm">Eliminar</a>
+                            <a href="FormularioUsuarioActualizar.php?id=<?= $row['id_user'] ?>" class="btn btn-sm">Editar</a>
+                            <a onclick="return confirm('¿Eliminar este usuario del sistema?')"
+                               href="../model/ModeloUsuarioEliminar.php?id=<?= $row['id_user'] ?>"
+                               class="btn btn-sm">Eliminar</a>
                         </td>
                     </tr>
                     <?php } ?>
@@ -77,6 +85,5 @@ $total = mysqli_num_rows($query);
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
