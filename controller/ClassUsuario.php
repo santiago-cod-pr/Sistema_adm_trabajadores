@@ -55,7 +55,7 @@ class Usuario
         mysqli_close($con);
     }
 
-    public function alta()
+public function alta()
     {
         include('../model/conexionDB.php');
         $con = conection();
@@ -117,5 +117,3 @@ class Usuario
         }
         mysqli_close($con);
     }
-}
-?>
