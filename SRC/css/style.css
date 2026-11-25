@@ -1,0 +1,15 @@
+#contenedorform{
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 3%;
+}
+
+#titulo{
+    margin-top: 10%;
+    text-align: center;
+}
+
+#btn1{
+    margin-left: 39%;
+    margin-top: 4%;
+}

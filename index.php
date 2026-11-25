@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso - Sistema de Trabajadores</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Control de Personal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="SRC/css/style.css">
 </head>
-<body class="bg-dark text-white d-flex align-items-center vh-100">
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5 col-lg-4">
-                <div class="card bg-secondary text-white shadow-lg border-0">
-                    <div class="card-body p-4">
-                        <h3 class="text-center mb-4 fw-bold">Control de Personal</h3>
-                        
-                        <form method="POST" action="model/ModeloLogin.php">
-                            <div class="mb-3">
-                                <label class="form-label">Correo Electrónico</label>
-                                <input type="email" name="email" class="form-control" placeholder="admin@empresa.com" required>
-                            </div>
+<?php
+if (isset($_GET['error'])) {
+    echo "<script>alert('DATOS INCORRECTOS - INTENTE DE NUEVO');</script>";
+}
+?>
 
-                            <div class="mb-3">
-                                <label class="form-label">Contraseña</label>
-                                <input type="password" name="pw" class="form-control" placeholder="********" required>
-                            </div>
+<body>
+    <h1 id="titulo">CONTROL DE PERSONAL</h1>
 
-                            <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary fw-bold">Iniciar Sesión</button>
-                                <button type="reset" class="btn btn-outline-light">Limpiar</button>
-                            </div>
-                        </form>
-                    </div>
+    <!-- aqui inicia el FORMULARIO -->
+    <div class="card" id="contenedorform">
+        <div class="card-body">
+            <form method="POST" action="model/ModeloLogin.php">
+                <label class="form-label">Email</label>
+                <input class="form-control" name="email" placeholder="admin@empresa.com" type="email" required />
+
+                <label class="form-label">Password</label>
+                <input class="form-control" name="pw" placeholder="********" type="password" required />
+
+                <div id="btn1">
+                    <button type="submit" class="btn-solid theme-accent">Iniciar Sesion</button>
+                    <button type="reset" class="btn-outline theme-danger">Cancelar</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- aqui termina el FORMULARIO -->
 </body>
+
 </html>
