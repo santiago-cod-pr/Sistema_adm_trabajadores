@@ -9,7 +9,6 @@ CREATE TABLE usuarios (
     rol VARCHAR(50) NOT NULL
 );
 
-
 CREATE TABLE departamentos (
     id_depto INT AUTO_INCREMENT PRIMARY KEY,
     nombre_depto VARCHAR(100) NOT NULL,
@@ -26,7 +25,7 @@ CREATE TABLE trabajadores (
     FOREIGN KEY (id_depto) REFERENCES departamentos(id_depto)
 );
 
--- Cuentas de prueba para probar la redirección por rol
+-- Usuarios para probar los 3 roles en el Login
 INSERT INTO usuarios (nombre, email, password, rol) VALUES 
 ('Administrador General', 'admin@empresa.com', '1234', 'Admin'),
 ('Laura Supervisor', 'laura@empresa.com', 'abcd', 'Supervisor'),

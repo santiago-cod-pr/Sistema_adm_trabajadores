@@ -7,7 +7,6 @@ class Usuario
     private $pw;
     private $rol;
 
-    
     public function __construct($email, $pw, $nombre = null, $rol = null, $id_user = null)
     {
         $this->email = $email;
@@ -34,10 +33,8 @@ class Usuario
             session_start();
             $_SESSION['id_user'] = $row['id_user'];
             $_SESSION['nombre'] = $row['nombre'];
-            $_SESSION['email'] = $row['email'];
             $_SESSION['rol'] = $row['rol'];
 
-            // Redirección según el cargo/rol del usuario
             if ($row['rol'] == 'Admin' || $row['rol'] == 'Supervisor') {
                 header("Location: ../view/dashboard.php");
             } else {
@@ -55,7 +52,7 @@ class Usuario
         mysqli_close($con);
     }
 
-public function alta()
+    public function alta()
     {
         include('../model/conexionDB.php');
         $con = conection();
@@ -117,3 +114,5 @@ public function alta()
         }
         mysqli_close($con);
     }
+}
+?>
