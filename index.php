@@ -20,7 +20,11 @@ if (isset($_GET['error'])) {
 ?>
 
 <body>
-    <h1 id="titulo">CONTROL DE PERSONAL</h1>
+    <!-- Logo -->
+     <div class="text-center mt-2" style="margin-bottom: 0;">
+        <img src="SRC/img/icono_blanco_Chambify.png" alt="Chambify" style="max-height: 200px; width: auto;">
+     </div>
+    <h1 id="titulo" style="margin-top: 0; margin-bottom: 12px;">CONTROL DE PERSONAL</h1>
 
     <!-- aqui inicia el FORMULARIO -->
     <div class="card" id="contenedorform">
