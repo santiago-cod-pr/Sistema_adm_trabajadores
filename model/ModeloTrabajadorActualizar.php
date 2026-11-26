@@ -1,5 +1,12 @@
 <?php
-require_once __DIR__ . '/../controlador/ClassTrabajador.php';
+session_start();
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['rol']) && $_SESSION['rol'] === 'Trabajador')) {
+    header("Location: ../view/dashboard.php");
+    exit();
+}
+
+require_once __DIR__ . '/conexionDB.php';
+require_once __DIR__ . '/../controller/ClassTrabajador.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_trabajador = $_POST['id_trabajador'] ?? 0;
@@ -17,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    $con = conection();
     $trabajador = new Trabajador(
         $nombre,
         $apellido,
@@ -25,8 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         (int) $id_depto,
         (int) $id_trabajador
     );
-    $trabajador->actualizar((int) $id_trabajador);
+    $trabajador->actualizar($con, (int) $id_trabajador);
+    mysqli_close($con);
 } else {
-    header("Location: ../vista/dashboard.php");
+    header("Location: ../view/dashboard.php");
     exit();
 }
+?>
