@@ -10,12 +10,13 @@ $con = conection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre   = mysqli_real_escape_string($con, $_POST['nombre'] ?? '');
+    $apellido = mysqli_real_escape_string($con, $_POST['apellido'] ?? '');
     $email    = mysqli_real_escape_string($con, $_POST['email'] ?? '');
     $rol      = mysqli_real_escape_string($con, $_POST['rol'] ?? 'Trabajador');
     $password = mysqli_real_escape_string($con, $_POST['password'] ?? '');
 
-    $sql = "INSERT INTO usuarios (nombre, email, rol, password)
-            VALUES ('$nombre', '$email', '$rol', '$password')";
+    $sql = "INSERT INTO usuarios (nombre, apellido, email, rol, password)
+            VALUES ('$nombre', '$apellido', '$email', '$rol', '$password')";
     mysqli_query($con, $sql);
 }
 
