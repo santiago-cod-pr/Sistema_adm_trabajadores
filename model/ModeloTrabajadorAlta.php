@@ -1,5 +1,12 @@
 <?php
-require_once __DIR__ . '/../controlador/ClassTrabajador.php';
+session_start();
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['rol']) && $_SESSION['rol'] === 'Trabajador')) {
+    header("Location: ../view/dashboard.php");
+    exit();
+}
+
+require_once __DIR__ . '/conexionDB.php';
+require_once __DIR__ . '/../controller/ClassTrabajador.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre   = trim($_POST['nombre'] ?? '');
@@ -8,23 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $salario  = $_POST['salario'] ?? 0;
     $id_depto = $_POST['id_depto'] ?? 0;
 
-    if ($nombre === '' || $apellido === '' || $puesto === '' || !is_numeric($salario) || (int) $id_depto <= 0) {
-        echo "<script>
-            alert('Por favor completa todos los campos correctamente.');
-            window.history.back();
-        </script>";
-        exit();
-    }
-
-    $trabajador = new Trabajador(
-        $nombre,
-        $apellido,
-        $puesto,
-        (float) $salario,
-        (int) $id_depto
-    );
-    $trabajador->alta();
+    $con = conection();
+    $trabajador = new Trabajador($nombre, $apellido, $puesto, (float) $salario, (int) $id_depto);
+    $trabajador->alta($con);
+    mysqli_close($con);
 } else {
-    header("Location: ../vista/FormularioTrabajador.php");
+    header("Location: ../view/dashboard.php");
     exit();
 }
+?>
