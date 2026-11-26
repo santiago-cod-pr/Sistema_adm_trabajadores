@@ -18,13 +18,16 @@ class Trabajador
         $this->id_trabajador = $id_trabajador;
     }
 
-    public function alta()
+    public function alta($con)
     {
-        include('../model/conexionDB.php');
-        $con = conection();
+        $nombre   = mysqli_real_escape_string($con, $this->nombre);
+        $apellido = mysqli_real_escape_string($con, $this->apellido);
+        $puesto   = mysqli_real_escape_string($con, $this->puesto);
+        $salario  = (float) $this->salario;
+        $id_depto = (int) $this->id_depto;
 
         $sql = "INSERT INTO trabajadores (nombre, apellido, puesto, salario, id_depto) 
-                VALUES ('$this->nombre', '$this->apellido', '$this->puesto', '$this->salario', '$this->id_depto')";
+                VALUES ('$nombre', '$apellido', '$puesto', '$salario', '$id_depto')";
         $query = mysqli_query($con, $sql);
 
         if ($query) {
@@ -36,17 +39,20 @@ class Trabajador
         } else {
             echo "Error al registrar: " . mysqli_error($con);
         }
-        mysqli_close($con);
     }
 
-    public function actualizar($id)
+    public function actualizar($con, $id)
     {
-        include('../model/conexionDB.php');
-        $con = conection();
+        $id_limpio = (int) $id;
+        $nombre    = mysqli_real_escape_string($con, $this->nombre);
+        $apellido  = mysqli_real_escape_string($con, $this->apellido);
+        $puesto    = mysqli_real_escape_string($con, $this->puesto);
+        $salario   = (float) $this->salario;
+        $id_depto  = (int) $this->id_depto;
 
         $sql = "UPDATE trabajadores 
-                SET nombre = '$this->nombre', apellido = '$this->apellido', puesto = '$this->puesto', salario = '$this->salario', id_depto = '$this->id_depto' 
-                WHERE id_trabajador = $id";
+                SET nombre = '$nombre', apellido = '$apellido', puesto = '$puesto', salario = '$salario', id_depto = '$id_depto' 
+                WHERE id_trabajador = $id_limpio";
         $query = mysqli_query($con, $sql);
 
         if ($query) {
@@ -58,15 +64,12 @@ class Trabajador
         } else {
             echo "Error al actualizar: " . mysqli_error($con);
         }
-        mysqli_close($con);
     }
 
-    public function eliminar($id)
+    public function eliminar($con, $id)
     {
-        include('../model/conexionDB.php');
-        $con = conection();
-
-        $sql = "DELETE FROM trabajadores WHERE id_trabajador = $id";
+        $id_limpio = (int) $id;
+        $sql = "DELETE FROM trabajadores WHERE id_trabajador = $id_limpio";
         $query = mysqli_query($con, $sql);
 
         if ($query) {
@@ -78,7 +81,6 @@ class Trabajador
         } else {
             echo "Error al eliminar: " . mysqli_error($con);
         }
-        mysqli_close($con);
     }
 }
 ?>
