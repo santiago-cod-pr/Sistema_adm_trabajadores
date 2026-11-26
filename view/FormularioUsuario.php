@@ -8,23 +8,29 @@ if (!isset($_SESSION['id_user']) || $_SESSION['rol'] != 'Admin') {
 include('../model/conexionDB.php');
 $con = conection();
 
-$esEdicion = false;
-$usuario = [
-    'id_user'  => '',
-    'nombre'   => '',
-    'apellido' => '',
-    'email'    => '',
-    'rol'      => 'Trabajador',
-    'password' => ''
-];
+// Por defecto empezamos en modo "crear nuevo"
+$modo_editar = false;
+$id_user  = "";
+$nombre   = "";
+$apellido = "";
+$email    = "";
+$rol      = "Trabajador";
+$password = "";
 
-if (isset($_GET['id']) && !empty($_GET['id'])) {
-    $esEdicion = true;
-    $id = mysqli_real_escape_string($con, $_GET['id']);
-    $sql = "SELECT * FROM usuarios WHERE id_user = '$id' LIMIT 1";
-    $query = mysqli_query($con, $sql);
-    if ($row = mysqli_fetch_assoc($query)) {
-        $usuario = $row;
+// Si llega un id por la URL (por ejemplo FormularioUsuario.php?id=1), cargamos ese usuario para editar
+if (isset($_GET['id']) && $_GET['id'] != "") {
+    $modo_editar = true;
+    $id_consulta = mysqli_real_escape_string($con, $_GET['id']);
+    $sql = "SELECT * FROM usuarios WHERE id_user = '$id_consulta' LIMIT 1";
+    $resultado = mysqli_query($con, $sql);
+
+    if ($fila = mysqli_fetch_assoc($resultado)) {
+        $id_user  = $fila['id_user'];
+        $nombre   = $fila['nombre'];
+        $apellido = $fila['apellido'];
+        $email    = $fila['email'];
+        $rol      = $fila['rol'];
+        $password = $fila['password'];
     }
 }
 ?>
@@ -33,7 +39,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $esEdicion ? 'Actualizar Usuario' : 'Nuevo Usuario' ?></title>
+    <title><?php if ($modo_editar) { echo "Actualizar Usuario"; } else { echo "Nuevo Usuario"; } ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
     <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js"
@@ -56,58 +62,83 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     <div class="container py-3" style="max-width: 560px;">
         <div class="card p-4 shadow">
             <h3 class="mb-1 fw-bold text-center">
-                <?= $esEdicion ? 'Actualizar Usuario #' . htmlspecialchars($usuario['id_user']) : 'Registrar Nuevo Usuario' ?>
+                <?php
+                if ($modo_editar) {
+                    echo "Actualizar Usuario #" . $id_user;
+                } else {
+                    echo "Registrar Nuevo Usuario";
+                }
+                ?>
             </h3>
             <p class="text-center mb-4" style="opacity: 0.75;">
-                <?= $esEdicion ? 'Modifica los datos de acceso del usuario' : 'Completa los datos para crear una cuenta de acceso' ?>
+                <?php
+                if ($modo_editar) {
+                    echo "Modifica los datos del usuario";
+                } else {
+                    echo "Completa los datos para crear una cuenta de acceso";
+                }
+                ?>
             </p>
 
-            <form method="POST" action="<?= $esEdicion ? '../model/ModeloUsuarioActualizar.php' : '../model/ModeloUsuarioAlta.php' ?>">
-                <?php if ($esEdicion) { ?>
-                    <input type="hidden" name="id_user" value="<?= htmlspecialchars($usuario['id_user']) ?>">
+            <?php
+            $destino_form = "../model/ModeloUsuarioAlta.php";
+            if ($modo_editar) {
+                $destino_form = "../model/ModeloUsuarioActualizar.php";
+            }
+            ?>
+
+            <form method="POST" action="<?php echo $destino_form; ?>">
+                <?php if ($modo_editar) { ?>
+                    <input type="hidden" name="id_user" value="<?php echo $id_user; ?>">
                 <?php } ?>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Nombre</label>
-                        <input type="text" name="nombre" class="form-control" placeholder="Ej. Carlos"
-                               value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
+                        <input type="text" name="nombre" class="form-control"
+                               value="<?php echo $nombre; ?>" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Apellidos</label>
-                        <input type="text" name="apellido" class="form-control" placeholder="Ej. Mendoza López"
-                               value="<?= htmlspecialchars($usuario['apellido']) ?>" required>
+                        <input type="text" name="apellido" class="form-control"
+                               value="<?php echo $apellido; ?>" required>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Correo Electrónico</label>
                     <input type="email" name="email" class="form-control" placeholder="usuario@empresa.com"
-                           value="<?= htmlspecialchars($usuario['email']) ?>" required>
+                           value="<?php echo $email; ?>" required>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Rol / Cargo</label>
+                        <label class="form-label">Puesto</label>
                         <select name="rol" class="form-select w-100" required>
-                            <option value="Admin" <?= $usuario['rol'] == 'Admin' ? 'selected' : '' ?>>Admin</option>
-                            <option value="Supervisor" <?= $usuario['rol'] == 'Supervisor' ? 'selected' : '' ?>>Supervisor</option>
-                            <option value="Trabajador" <?= $usuario['rol'] == 'Trabajador' ? 'selected' : '' ?>>Trabajador</option>
+                            <option value="Admin" <?php if ($rol == "Admin") { echo "selected"; } ?>>Admin</option>
+                            <option value="Supervisor" <?php if ($rol == "Supervisor") { echo "selected"; } ?>>Supervisor</option>
+                            <option value="Trabajador" <?php if ($rol == "Trabajador") { echo "selected"; } ?>>Trabajador</option>
                         </select>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Contraseña</label>
                         <input type="text" name="password" class="form-control" placeholder="********"
-                               value="<?= htmlspecialchars($usuario['password']) ?>" required>
+                               value="<?php echo $password; ?>" required>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="usuarios.php" class="btn-outline theme-danger">Cancelar</a>
                     <button type="submit" class="btn-solid theme-accent">
-                        <?= $esEdicion ? 'Guardar Cambios' : 'Crear Usuario' ?>
+                        <?php
+                        if ($modo_editar) {
+                            echo "Guardar Cambios";
+                        } else {
+                            echo "Crear Usuario";
+                        }
+                        ?>
                     </button>
                 </div>
             </form>
