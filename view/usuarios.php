@@ -28,7 +28,6 @@ $total = mysqli_num_rows($query);
 </head>
 <body class="bg-dark text-white">
 
-    <!-- Barra superior estilo RRHH -->
     <nav class="navbar navbar-expand-lg border-bottom mb-4">
         <div class="container">
             <a class="navbar-brand fw-bold" href="dashboard.php">Empresa RRHH</a>
@@ -40,7 +39,6 @@ $total = mysqli_num_rows($query);
     </nav>
 
     <div class="container">
-        <!-- Encabezado de sección y botón principal -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h2 class="mb-0">Cuentas de Acceso al Sistema</h2>
@@ -51,7 +49,6 @@ $total = mysqli_num_rows($query);
             </div>
         </div>
 
-        <!-- Tabla lista para aplicarle el estilo/tema de Bootstrap 6 que elijas -->
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -73,7 +70,7 @@ $total = mysqli_num_rows($query);
                         <td><span><?= $row['rol'] ?></span></td>
                         <td><?= $row['password'] ?></td>
                         <td class="text-center">
-                            <a href="FormularioUsuarioActualizar.php?id=<?= $row['id_user'] ?>" class="btn btn-sm">Editar</a>
+                            <a href="FormularioUsuario.php?id=<?= $row['id_user'] ?>" class="btn btn-sm">Editar</a>
                             <a onclick="return confirm('¿Eliminar este usuario del sistema?')"
                                href="../model/ModeloUsuarioEliminar.php?id=<?= $row['id_user'] ?>"
                                class="btn btn-sm">Eliminar</a>
@@ -85,5 +82,7 @@ $total = mysqli_num_rows($query);
         </div>
     </div>
 
+    <script src="../controller/ClassForm.js"></script>
+    <script src="../controller/ClassUser.js"></script>
 </body>
 </html>
