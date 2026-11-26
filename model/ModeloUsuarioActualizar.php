@@ -11,13 +11,14 @@ $con = conection();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_user  = mysqli_real_escape_string($con, $_POST['id_user'] ?? '');
     $nombre   = mysqli_real_escape_string($con, $_POST['nombre'] ?? '');
+    $apellido = mysqli_real_escape_string($con, $_POST['apellido'] ?? '');
     $email    = mysqli_real_escape_string($con, $_POST['email'] ?? '');
     $rol      = mysqli_real_escape_string($con, $_POST['rol'] ?? 'Trabajador');
     $password = mysqli_real_escape_string($con, $_POST['password'] ?? '');
 
     if (!empty($id_user)) {
         $sql = "UPDATE usuarios
-                SET nombre = '$nombre', email = '$email', rol = '$rol', password = '$password'
+                SET nombre = '$nombre', apellido = '$apellido', email = '$email', rol = '$rol', password = '$password'
                 WHERE id_user = '$id_user'";
         mysqli_query($con, $sql);
     }
