@@ -43,7 +43,8 @@ if (isset($_GET['error'])) {
             </form>
         </div>
     </div>
-    <!-- aqui termina el FORMULARIO -->
+<script src="controller/ClassForm.js"></script>
+    <script src="controller/ClassUser.js"></script>
 </body>
 
 </html>
