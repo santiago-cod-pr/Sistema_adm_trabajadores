@@ -55,6 +55,7 @@ $total = mysqli_num_rows($query);
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Apellidos</th>
                         <th>Email</th>
                         <th>Rol / Cargo</th>
                         <th>Contraseña</th>
@@ -65,10 +66,11 @@ $total = mysqli_num_rows($query);
                     <?php while ($row = mysqli_fetch_assoc($query)) { ?>
                     <tr>
                         <td><?= $row['id_user'] ?></td>
-                        <td><?= $row['nombre'] ?></td>
-                        <td><?= $row['email'] ?></td>
-                        <td><span><?= $row['rol'] ?></span></td>
-                        <td><?= $row['password'] ?></td>
+                        <td><?= htmlspecialchars($row['nombre']) ?></td>
+                        <td><?= htmlspecialchars($row['apellido'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($row['email']) ?></td>
+                        <td><span><?= htmlspecialchars($row['rol']) ?></span></td>
+                        <td><?= htmlspecialchars($row['password']) ?></td>
                         <td class="text-center">
                             <a href="FormularioUsuario.php?id=<?= $row['id_user'] ?>" class="btn btn-sm">Editar</a>
                             <a onclick="return confirm('¿Eliminar este usuario del sistema?')"
