@@ -4,6 +4,7 @@ USE empresa_db;
 CREATE TABLE usuarios (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     rol VARCHAR(50) NOT NULL
