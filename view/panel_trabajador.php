@@ -12,7 +12,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'Trabajador') {
 }
 
 require_once __DIR__ . '/../model/conexionDB.php';
-$con = conexion();
+$con = conection();
 
 $nombre_sesion = mysqli_real_escape_string($con, $_SESSION['nombre'] ?? '');
 
