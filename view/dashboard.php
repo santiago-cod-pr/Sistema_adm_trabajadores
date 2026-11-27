@@ -12,8 +12,7 @@ if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'Trabajador') {
 }
 
 require_once __DIR__ . '/../model/conexionDB.php';
-$con = conexion();
-
+$con = conection();
 $sql = "SELECT t.id_trabajador, t.nombre, t.apellido, t.puesto, t.salario, t.id_depto,
                d.nombre_depto, d.ubicacion
         FROM trabajadores t
